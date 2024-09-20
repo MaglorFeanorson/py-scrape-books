@@ -1,6 +1,6 @@
 import scrapy
 from scrapy.http import Response
-
+from typing import Generator
 
 class BooksSpider(scrapy.Spider):
     name = "book_spider"
@@ -8,7 +8,7 @@ class BooksSpider(scrapy.Spider):
     start_urls = ["https://books.toscrape.com"
                   "/catalogue/category/books_1/index.html"]
 
-    def parse(self, response: Response, **kwargs) -> None:
+    def parse(self, response: Response, **kwargs) -> Generator[scrapy.Request, None, None]:
         for book in response.css(".product_pod"):
             url = book.css("h3 > a::attr(href)").get()
 
